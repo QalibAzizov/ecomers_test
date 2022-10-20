@@ -13,6 +13,27 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <script type="text/javascript" >
+        var user = '{{ request.user }}'
+
+        function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+}
+const csrftoken = getToken('csrftoken');
+    </script>
+
 
 
 </head>
@@ -41,7 +62,7 @@
                     <a href="{% url 'card' %}">
                         <img  id="cart-icon" src="{% static 'images/cart.png' %}">
                     </a>
-                    <p id="cart-total">0</p>
+                    <p id="cart-total">{{cartItems}}</p>
            
                 </div>
             </div>
@@ -64,6 +85,7 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 </body>
 
 </html>
